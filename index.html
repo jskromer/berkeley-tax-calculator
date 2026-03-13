@@ -365,6 +365,207 @@
       color: var(--accent);
     }
 
+    /* -- Matrix toggle -- */
+    .matrix-toggle-wrap {
+      max-width: 900px;
+      margin: 1.25rem auto 0.75rem;
+      text-align: center;
+    }
+    .matrix-toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--accent);
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 0.55rem 1.25rem;
+      cursor: pointer;
+      letter-spacing: 0.03em;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .matrix-toggle-btn:hover { background: rgba(26,110,168,0.06); border-color: var(--accent); }
+    .matrix-toggle-btn .arrow { transition: transform 0.2s; }
+    .matrix-toggle-btn.open .arrow { transform: rotate(180deg); }
+
+    /* -- Matrix section -- */
+    .matrix-section { display: none; }
+    .matrix-section.visible { display: block; }
+
+    .matrix-section-bar {
+      max-width: 1400px;
+      margin: 0 auto 0.6rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    .matrix-section-label {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .matrix-toggle-pill {
+      display: flex;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .matrix-toggle-pill .toggle-btn {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.4rem 1rem;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      letter-spacing: 0.04em;
+      transition: background 0.15s, color 0.15s;
+    }
+    .matrix-toggle-pill .toggle-btn.active {
+      background: var(--accent);
+      color: #ffffff;
+    }
+
+    .matrix-explainer {
+      max-width: 1400px;
+      margin: 0 auto 0.6rem;
+      font-size: 0.84rem;
+      color: #4a4840;
+      line-height: 1.6;
+    }
+    .matrix-explainer strong { color: var(--text); font-weight: 600; }
+
+    .bill-prompt {
+      max-width: 1400px;
+      margin: 0 auto 0.75rem;
+      background: #fdf8f2;
+      border: 1px solid rgba(184,92,0,0.3);
+      border-radius: var(--r);
+      padding: 0.85rem 1.25rem;
+      display: none;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    .bill-prompt.visible { display: flex; }
+    .bill-prompt-text {
+      font-size: 0.82rem;
+      color: #7a3a00;
+      flex: 1;
+      min-width: 200px;
+      line-height: 1.5;
+    }
+    .bill-prompt input {
+      background: var(--bg);
+      border: 1px solid rgba(251,191,36,0.5);
+      border-radius: 6px;
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.88rem;
+      padding: 0.45rem 0.75rem;
+      width: 160px;
+      text-align: right;
+    }
+    .bill-prompt input:focus {
+      outline: none;
+      border-color: var(--amber);
+      box-shadow: 0 0 0 3px rgba(251,191,36,0.15);
+    }
+    .bill-prompt label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--amber);
+      white-space: nowrap;
+    }
+
+    .matrix-wrap {
+      max-width: 1400px;
+      margin: 0 auto;
+      overflow: auto;
+      max-height: 62vh;
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+    #matrix {
+      border-collapse: separate;
+      border-spacing: 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      white-space: nowrap;
+    }
+    #matrix thead tr th {
+      background: var(--surface2);
+      padding: 0.55rem 0.35rem;
+      border-bottom: 2px solid var(--accent);
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      transition: background 0.1s, color 0.1s;
+    }
+    #matrix thead tr th:first-child {
+      left: 0; z-index: 20;
+      text-align: left;
+      border-right: 2px solid var(--border);
+      color: var(--text);
+      min-width: 75px;
+    }
+    #matrix thead tr th.av-header { color: var(--accent2); min-width: 62px; }
+    #matrix thead tr th.col-highlight {
+      background: rgba(26,110,168,0.15) !important;
+      color: var(--accent) !important;
+    }
+    #matrix tbody tr:nth-child(even) td { background: #f4f3f0; }
+    #matrix tbody tr:nth-child(odd)  td { background: transparent; }
+    #matrix tbody td {
+      padding: 0.45rem 0.35rem;
+      border-bottom: 1px solid var(--border);
+      text-align: right;
+      color: var(--text);
+      font-size: 0.75rem;
+      transition: background 0.08s;
+    }
+    #matrix tbody td:first-child {
+      text-align: left;
+      font-weight: 700;
+      color: var(--amber);
+      background: var(--surface2);
+      border-right: 2px solid var(--border);
+      position: sticky;
+      left: 0; z-index: 5;
+      transition: background 0.08s, color 0.08s;
+    }
+    #matrix tbody td.row-highlight     { background: rgba(26,110,168,0.07) !important; }
+    #matrix tbody td.col-highlight     { background: rgba(26,110,168,0.07) !important; }
+    #matrix tbody td.cell-highlight    {
+      background: rgba(26,110,168,0.18) !important;
+      outline: 2px solid var(--accent);
+      outline-offset: -2px;
+      border-radius: 3px;
+      position: relative; z-index: 2;
+    }
+    #matrix tbody td.row-header-active {
+      background: rgba(26,110,168,0.15) !important;
+      color: var(--accent) !important;
+    }
+
     /* -- Explainer -- */
     .explainer {
       max-width: 900px;
@@ -435,7 +636,7 @@
       <div class="measure-label">
         <span class="measure-name">Berkeley Sales Tax Increase</span>
         <span class="measure-desc">flat estimate — edit to match your spending</span>
-        <input class="measure-input" id="val-berkSales" type="number" value="300" oninput="calc()" onclick="event.stopPropagation()" />
+        <input class="measure-input" id="val-berkSales" type="number" value="300" oninput="calc(); if(matrixBuilt) buildMatrix();" onclick="event.stopPropagation()" />
       </div>
       <span class="measure-amount">+0.05%</span>
     </label>
@@ -445,7 +646,7 @@
       <div class="measure-label">
         <span class="measure-name">County Sales Tax Increase for BART</span>
         <span class="measure-desc">flat estimate — edit to match your spending</span>
-        <input class="measure-input" id="val-alamSales" type="number" value="300" oninput="calc()" onclick="event.stopPropagation()" />
+        <input class="measure-input" id="val-alamSales" type="number" value="300" oninput="calc(); if(matrixBuilt) buildMatrix();" onclick="event.stopPropagation()" />
       </div>
       <span class="measure-amount">+0.05%</span>
     </label>
@@ -517,6 +718,43 @@
   <div class="breakdown">
     <div class="breakdown-title">Breakdown</div>
     <div class="breakdown-grid" id="breakdown"></div>
+  </div>
+</div>
+
+<!-- Matrix toggle -->
+<div class="matrix-toggle-wrap">
+  <button class="matrix-toggle-btn" id="matrix-toggle" onclick="toggleMatrix()">
+    Show full comparison table <span class="arrow">&#9660;</span>
+  </button>
+</div>
+
+<!-- Matrix section (hidden by default) -->
+<div class="matrix-section" id="matrix-section">
+  <div class="matrix-section-bar">
+    <span class="matrix-section-label" id="matrix-heading">Total $ increase in taxes</span>
+    <div class="matrix-toggle-pill">
+      <button class="toggle-btn active" id="btn-dollar" onclick="setMode('dollar')">$ Increase</button>
+      <button class="toggle-btn" id="btn-pct" onclick="setMode('pct')">% Increase</button>
+    </div>
+  </div>
+  <p class="matrix-explainer">
+    <strong>Columns</strong> represent the <strong>assessed value</strong> of your home, not its market value. <strong>Rows</strong> represent the square footage.
+  </p>
+  <div class="bill-prompt" id="bill-prompt">
+    <div class="bill-prompt-text">
+      To show % increase, enter last year's total property tax bill.
+      <br><a href="https://propertytax.alamedacountyca.gov/search" target="_blank" rel="noopener">Look it up at the Alameda County Property Tax portal &rarr;</a>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:0.3rem;">
+      <label for="matrixBill">Last Year's Total Bill ($)</label>
+      <input type="number" id="matrixBill" placeholder="e.g. 15000" oninput="buildMatrix()" />
+    </div>
+  </div>
+  <div class="matrix-wrap">
+    <table id="matrix">
+      <thead id="matrix-head"></thead>
+      <tbody id="matrix-body"></tbody>
+    </table>
   </div>
 </div>
 
@@ -624,6 +862,116 @@
   function onMeasureChange(id) {
     document.getElementById('row-' + id).classList.toggle('unchecked', !document.getElementById('cb-' + id).checked);
     calc();
+    if (matrixBuilt) buildMatrix();
+  }
+
+  /* -- Matrix -- */
+  let matrixMode = 'dollar';
+  let matrixBuilt = false;
+
+  function toggleMatrix() {
+    const section = document.getElementById('matrix-section');
+    const btn = document.getElementById('matrix-toggle');
+    const show = !section.classList.contains('visible');
+    section.classList.toggle('visible', show);
+    btn.classList.toggle('open', show);
+    btn.innerHTML = show
+      ? 'Hide comparison table <span class="arrow">&#9650;</span>'
+      : 'Show full comparison table <span class="arrow">&#9660;</span>';
+    if (show && !matrixBuilt) { buildMatrix(); matrixBuilt = true; }
+  }
+
+  function setMode(m) {
+    matrixMode = m;
+    document.getElementById('btn-dollar').classList.toggle('active', m === 'dollar');
+    document.getElementById('btn-pct').classList.toggle('active', m === 'pct');
+    document.getElementById('matrix-heading').textContent =
+      m === 'dollar' ? 'Total $ increase in taxes' : '% Increase in taxes compared to last year';
+    document.getElementById('bill-prompt').classList.toggle('visible', m === 'pct');
+    buildMatrix();
+  }
+
+  function calcIncrease(sqft, curAV) {
+    const p = calcParts(sqft, curAV);
+    return Object.values(p).reduce((a, b) => a + b, 0);
+  }
+
+  function fmtAV(v) { return (v / 1000) + 'k'; }
+
+  function buildMatrix() {
+    const lastBill = num('matrixBill');
+    const showPct = matrixMode === 'pct';
+
+    const avCols = [], sqftRows = [];
+    for (let av = AV_START; av <= AV_END; av += AV_STEP) avCols.push(av);
+    for (let sf = SQFT_START; sf <= SQFT_END; sf += SQFT_STEP) sqftRows.push(sf);
+
+    const head = document.getElementById('matrix-head');
+    let hrow = '<tr><th><span style="color:var(--amber)">SQ FT &darr;</span> / <span style="color:var(--accent)">AV &rarr;</span></th>';
+    avCols.forEach((av, ci) => {
+      hrow += '<th class="av-header" data-col="' + (ci + 1) + '">$' + fmtAV(av) + '</th>';
+    });
+    hrow += '</tr>';
+    head.innerHTML = hrow;
+
+    const body = document.getElementById('matrix-body');
+    let html = '';
+    sqftRows.forEach((sf, ri) => {
+      html += '<tr><td class="sqft-header" data-row="' + ri + '">' + sf.toLocaleString() + '</td>';
+      avCols.forEach((av, ci) => {
+        const inc = calcIncrease(sf, av);
+        let display;
+        if (showPct) {
+          if (!lastBill) { display = '\u2014'; }
+          else { display = ((inc / lastBill) * 100).toFixed(1) + '%'; }
+        } else {
+          display = '$' + Math.round(inc).toLocaleString();
+        }
+        html += '<td data-row="' + ri + '" data-col="' + (ci + 1) + '">' + display + '</td>';
+      });
+      html += '</tr>';
+    });
+    body.innerHTML = html;
+    attachHover();
+  }
+
+  function attachHover() {
+    const tbody = document.getElementById('matrix-body');
+    const thead = document.getElementById('matrix-head');
+    let prevRow = null, prevCol = null;
+
+    function clearAll() {
+      if (prevRow !== null) {
+        tbody.querySelectorAll('td[data-row="' + prevRow + '"]').forEach(el => el.classList.remove('row-highlight'));
+        const rh = tbody.querySelector('.sqft-header[data-row="' + prevRow + '"]');
+        if (rh) rh.classList.remove('row-header-active');
+      }
+      if (prevCol !== null) {
+        tbody.querySelectorAll('td[data-col="' + prevCol + '"]').forEach(el => el.classList.remove('col-highlight'));
+        const ch = thead.querySelector('th[data-col="' + prevCol + '"]');
+        if (ch) ch.classList.remove('col-highlight');
+      }
+      tbody.querySelectorAll('td.cell-highlight').forEach(el => el.classList.remove('cell-highlight'));
+      prevRow = null; prevCol = null;
+    }
+
+    tbody.addEventListener('mouseover', e => {
+      const td = e.target.closest('td');
+      if (!td) return;
+      const row = td.dataset.row, col = td.dataset.col;
+      if (row === undefined || col === undefined) return;
+      if (row === prevRow && col === prevCol) return;
+      clearAll();
+      prevRow = row; prevCol = col;
+      tbody.querySelectorAll('td[data-row="' + row + '"]').forEach(el => el.classList.add('row-highlight'));
+      const rh = tbody.querySelector('.sqft-header[data-row="' + row + '"]');
+      if (rh) rh.classList.add('row-header-active');
+      tbody.querySelectorAll('td[data-col="' + col + '"]').forEach(el => el.classList.add('col-highlight'));
+      const ch = thead.querySelector('th[data-col="' + col + '"]');
+      if (ch) ch.classList.add('col-highlight');
+      td.classList.add('cell-highlight');
+    });
+    tbody.addEventListener('mouseleave', clearAll);
   }
 
   // Prevent measure-input clicks from toggling the parent label checkbox
