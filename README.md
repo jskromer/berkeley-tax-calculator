@@ -2,7 +2,7 @@
 
 Interactive single-page tool that estimates the year-over-year property tax increase for Berkeley homeowners based on proposed tax measures.
 
-**Live site:** https://jskromer.github.io/berkeley-tax-calculator/
+**Live site:** https://berkeley-tax-calculator.vercel.app
 
 ## How it works
 
