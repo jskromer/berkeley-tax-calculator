@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Berkeley Property Tax Bill — Explained</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Source+Sans+3:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f5f4f0;
+      --surface: #ffffff;
+      --surface2: #eeecea;
+      --border: #d4d0c8;
+      --text: #1a1a18;
+      --muted: #6b6860;
+      --accent: #1a6ea8;
+      --amber: #b85c00;
+      --red: #b83232;
+      --green: #2a7a3a;
+      --r: 10px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Source Sans 3', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    .container { max-width: 900px; margin: 0 auto; }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--accent);
+      text-decoration: none;
+      margin-bottom: 1rem;
+    }
+    .back-link:hover { text-decoration: underline; }
+
+    h1 {
+      font-size: clamp(1.4rem, 3vw, 2.1rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 0.5rem;
+    }
+    .subtitle {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--amber);
+      margin-bottom: 1.5rem;
+      line-height: 1.4;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 1.25rem 1.75rem;
+      margin-bottom: 1.25rem;
+    }
+    .card-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 0.85rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--border);
+    }
+    .card-title.blue { color: var(--accent); }
+    .card-title.amber { color: var(--amber); }
+    .card-title.green { color: var(--green); }
+    .card-title.muted { color: var(--muted); }
+
+    .intro {
+      font-size: 0.9rem;
+      line-height: 1.75;
+      color: #3a3830;
+      margin-bottom: 1.25rem;
+    }
+    .intro strong { color: var(--text); }
+
+    .tax-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+      margin-bottom: 0.5rem;
+    }
+    .tax-table th {
+      text-align: left;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0.4rem 0.6rem;
+      border-bottom: 2px solid var(--border);
+      background: var(--surface2);
+    }
+    .tax-table th:last-child,
+    .tax-table td:last-child { text-align: right; }
+    .tax-table td {
+      padding: 0.5rem 0.6rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    .tax-table tr:last-child td { border-bottom: none; }
+    .tax-table .measure-name { font-weight: 600; }
+    .tax-table .mono {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+    }
+    .tax-table .note {
+      font-size: 0.68rem;
+      color: var(--muted);
+      display: block;
+      margin-top: 0.15rem;
+    }
+    .tax-table .av-color { color: var(--accent); font-weight: 600; }
+    .tax-table .sqft-color { color: var(--amber); font-weight: 600; }
+    .tax-table .total-row td {
+      font-weight: 700;
+      border-top: 2px solid var(--text);
+      padding-top: 0.6rem;
+    }
+
+    .badge {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      font-weight: 700;
+      padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+      margin-left: 0.4rem;
+      vertical-align: middle;
+    }
+    .badge-new { background: rgba(184,50,50,0.12); color: var(--red); }
+    .badge-proposed { background: rgba(184,50,50,0.18); color: var(--red); font-weight: 800; }
+
+    .example-box {
+      background: #fdf8f2;
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--amber);
+      border-radius: var(--r);
+      padding: 1rem 1.4rem;
+      margin-top: 1rem;
+    }
+    .example-box .example-title {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 0.5rem;
+    }
+    .example-box .example-line {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      line-height: 1.8;
+      color: var(--text);
+    }
+    .example-box .example-total {
+      font-weight: 700;
+      color: var(--accent);
+      border-top: 1px solid var(--border);
+      margin-top: 0.3rem;
+      padding-top: 0.3rem;
+    }
+
+    .source-list {
+      list-style: none;
+      font-size: 0.78rem;
+      line-height: 1.8;
+    }
+    .source-list a {
+      color: var(--accent);
+      text-decoration: underline;
+    }
+    .source-list li::before {
+      content: "\2192  ";
+      color: var(--muted);
+    }
+
+    .section-note {
+      font-size: 0.8rem;
+      line-height: 1.6;
+      color: var(--muted);
+      margin-top: 0.75rem;
+    }
+
+    footer {
+      max-width: 900px;
+      margin: 2rem auto 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.63rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      padding-top: 1rem;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <a href="index.html" class="back-link">&larr; Back to Calculator</a>
+
+  <h1>What's on Your Berkeley Property Tax Bill?</h1>
+  <p class="subtitle">A complete guide to every line item on a typical Alameda County tax invoice for a Berkeley residential property</p>
+
+  <p class="intro">
+    Your Berkeley property tax bill isn't just one tax &mdash; it's a stack of <strong>20+ separate levies</strong> from the county, city, school district, and special districts. Some are based on your home's <strong style="color:var(--accent)">assessed value</strong> (the Prop 13 value the county has on record). Others are based on the <strong style="color:var(--amber)">square footage</strong> of your building or lot. This page explains each one.
+  </p>
+
+  <!-- Ad Valorem -->
+  <div class="card">
+    <div class="card-title blue">Ad Valorem Taxes (Based on Assessed Value)</div>
+    <p class="intro">These are percentage-based taxes applied to your county-assessed property value. Under Prop 13, your assessed value can only increase by 2% per year (Berkeley applies the full 2% every year) unless the property changes hands, at which point it resets to market value.</p>
+
+    <table class="tax-table">
+      <thead>
+        <tr><th>Tax</th><th>Rate</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <span class="measure-name">Base County Tax (Prop 13)</span>
+            <span class="note">The foundation &mdash; California's statewide 1% property tax</span>
+          </td>
+          <td class="mono">1.0000%</td>
+        </tr>
+        <tr>
+          <td>
+            <span class="measure-name">Alameda County Voter-Approved Debt</span>
+            <span class="note">County bonds for infrastructure, hospitals, etc.</span>
+          </td>
+          <td class="mono">~0.23%</td>
+        </tr>
+        <tr>
+          <td>
+            <span class="measure-name">Measure T1 &mdash; Infrastructure Bond (2016)</span>
+            <span class="note">City streets, parks, civic buildings, ADA</span>
+          </td>
+          <td class="mono">0.0110%</td>
+        </tr>
+        <tr>
+          <td>
+            <span class="measure-name">Measure O &mdash; Affordable Housing Bond (2018)</span>
+            <span class="note">Affordable housing construction and preservation</span>
+          </td>
+          <td class="mono">0.0200%</td>
+        </tr>
+        <tr>
+          <td>
+            <span class="measure-name">Measure M &mdash; Streets &amp; Watersheds Bond (2012)</span>
+          </td>
+          <td class="mono">0.0050%</td>
+        </tr>
+        <tr>
+          <td>
+            <span class="measure-name">Measure FF &mdash; Library Bond (2008)</span>
+          </td>
+          <td class="mono">0.0040%</td>
+        </tr>
+        <tr>
+          <td>
+            <span class="measure-name">Measures G, S, I &mdash; Fire/Seismic/Shelter Bonds</span>
+          </td>
+          <td class="mono">0.0090%</td>
+        </tr>
+        <tr>
+          <td>
+            <span class="measure-name">BUSD School Bonds</span>
+            <span class="note">Various school construction and renovation bonds</span>
+          </td>
+          <td class="mono">~0.05%</td>
+        </tr>
+        <tr class="total-row">
+          <td><span class="measure-name">Total Ad Valorem Rate</span></td>
+          <td class="mono" style="color:var(--accent)">~1.2323%</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="example-box">
+      <div class="example-title">Example: $800,000 Assessed Value</div>
+      <div class="example-line">$800,000 &times; 1.2323% = <strong>$9,858</strong> / year in ad valorem taxes</div>
+      <div class="example-line">Prop 13 annual increase: $800,000 &times; 2% &times; 1.2323% = <strong>$197</strong> more each year</div>
+    </div>
+  </div>
+
+  <!-- City Parcel Taxes -->
+  <div class="card">
+    <div class="card-title amber">City of Berkeley Parcel Taxes (Per Square Foot of Building)</div>
+    <p class="intro">These are voter-approved special taxes charged per square foot of building improvements. Several include a built-in 6.44% annual escalator. Rates shown are FY 2025&ndash;26 residential rates.</p>
+
+    <table class="tax-table">
+      <thead>
+        <tr><th>Tax</th><th>Rate / sq ft</th><th>Escalator</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <span class="measure-name">Parks, Trees &amp; Landscaping</span>
+            <span class="note">Maintenance of city parks and street trees</span>
+          </td>
+          <td class="mono">$0.2652</td>
+          <td class="mono">6.44%/yr</td>
+        </tr>
+        <tr>
+          <td>
+            <span class="measure-name">Library Services</span>
+            <span class="note">Operating expenses for the Berkeley Public Library system</span>
+          </td>
+          <td class="mono">$0.2980</td>
+          <td class="mono">6.44%/yr</td>
+        </tr>
+        <tr>
+          <td>
+            <span class="measure-name">Paramedic Supplemental Tax</span>
+            <span class="note">Emergency paramedic and ambulance services</span>
+          </td>
+          <td class="mono">$0.0474</td>
+          <td class="mono">6.44%/yr</td>
+        </tr>
+        <tr>
+          <td>
+            <span class="measure-name">Emergency Services for Severely Disabled</span>
+          </td>
+          <td class="mono">$0.0223</td>
+          <td class="mono">6.44%/yr</td>
+        </tr>
+        <tr>
+          <td>
+            <span class="measure-name">Fire Protection &mdash; Measure GG (2008)</span>
+            <span class="note">Berkeley Fire Department operations</span>
+          </td>
+          <td class="mono">$0.0670</td>
+          <td class="mono">6.44%/yr</td>
+        </tr>
+        <tr>
+          <td>
+            <span class="measure-name">Fire &amp; Wildfire Prevention &mdash; Measure FF (2020)</span>
+            <span class="note">Fire, emergency services, wildfire prevention</span>
+          </td>
+          <td class="mono">$0.1299</td>
+          <td class="mono">6.44%/yr</td>
+        </tr>
+        <tr>
+          <td>
+            <span class="measure-name">SAFE STREETS &mdash; Measure FF (2024)</span> <span class="badge badge-new">NEW</span>
+            <span class="note">Sidewalk and street repair, safety improvements</span>
+            <span class="note">FY 2026 billed at 18-month rate ($0.255) for first year</span>
+          </td>
+          <td class="mono">$0.1700</td>
+          <td class="mono">&mdash;</td>
+        </tr>
+        <tr>
+          <td>
+            <span class="measure-name">Library Relief Act &mdash; Measure X (2024)</span> <span class="badge badge-new">NEW</span>
+            <span class="note">Additional library funding</span>
+          </td>
+          <td class="mono">$0.0600</td>
+          <td class="mono">&mdash;</td>
+        </tr>
+        <tr>
+          <td>
+            <span class="measure-name">Street Lighting Tax</span>
+            <span class="note">Streetlight maintenance and replacement</span>
+          </td>
+          <td class="mono">$0.0108</td>
+          <td class="mono">&mdash;</td>
+        </tr>
+        <tr class="total-row">
+          <td><span class="measure-name">Total City Parcel Taxes</span></td>
+          <td class="mono" style="color:var(--amber)">~$1.07 / sq ft</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="example-box">
+      <div class="example-title">Example: 1,400 sq ft Home</div>
+      <div class="example-line">1,400 &times; $1.07 = <strong>$1,498</strong> / year in city parcel taxes</div>
+    </div>
+
+    <p class="section-note">
+      The 6.44% escalator means these taxes grow faster than inflation. For the five measures with the escalator, the combined increase is approximately <strong>$0.0534 / sq ft per year</strong> &mdash; about $75/year for a 1,400 sq ft home, even without any new measures passing.
+    </p>
+  </div>
+
+  <!-- School District Parcel Taxes -->
+  <div class="card">
+    <div class="card-title green">Berkeley Unified School District Parcel Taxes</div>
+
+    <table class="tax-table">
+      <thead>
+        <tr><th>Tax</th><th>Rate / sq ft</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <span class="measure-name">Berkeley School Tax &mdash; Measure H (2024)</span>
+            <span class="note">Replaces expiring school parcel tax; largest single parcel tax</span>
+          </td>
+          <td class="mono">$0.5400</td>
+        </tr>
+        <tr>
+          <td>
+            <span class="measure-name">School Maintenance &mdash; Measure H (2020)</span>
+          </td>
+          <td class="mono">$0.1065</td>
+        </tr>
+        <tr>
+          <td>
+            <span class="measure-name">Educator Recruitment &mdash; Measure E (2020)</span>
+            <span class="note">Teacher retention and recruitment</span>
+          </td>
+          <td class="mono">$0.1451</td>
+        </tr>
+        <tr class="total-row">
+          <td><span class="measure-name">Total BUSD Parcel Taxes</span></td>
+          <td class="mono" style="color:var(--green)">~$0.79 / sq ft</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="example-box">
+      <div class="example-title">Example: 1,400 sq ft Home</div>
+      <div class="example-line">1,400 &times; $0.79 = <strong>$1,106</strong> / year in school parcel taxes</div>
+    </div>
+  </div>
+
+  <!-- Other Assessments -->
+  <div class="card">
+    <div class="card-title muted">Other Assessments &amp; Fees</div>
+
+    <table class="tax-table">
+      <thead>
+        <tr><th>Item</th><th>Basis</th><th>Typical Amount</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <span class="measure-name">Clean Stormwater Fee</span>
+            <span class="note">$50 per runoff unit (2,196 sf standard lot), prorated by lot size and use</span>
+          </td>
+          <td class="mono">lot sq ft</td>
+          <td class="mono">~$50&ndash;150</td>
+        </tr>
+        <tr>
+          <td>
+            <span class="measure-name">2018 Street Light Assessment</span>
+            <span class="note">Capital improvement assessment for LED streetlight conversion</span>
+          </td>
+          <td class="mono">property</td>
+          <td class="mono">varies</td>
+        </tr>
+        <tr>
+          <td>
+            <span class="measure-name">2018 Storm Water Fee</span>
+          </td>
+          <td class="mono">property</td>
+          <td class="mono">varies</td>
+        </tr>
+        <tr>
+          <td>
+            <span class="measure-name">Refuse Collection / Zero Waste</span>
+            <span class="note">Garbage, recycling, composting based on bin size</span>
+          </td>
+          <td class="mono">flat / bin</td>
+          <td class="mono">~$600&ndash;900</td>
+        </tr>
+        <tr>
+          <td>
+            <span class="measure-name">Underground Utility Assessment</span>
+            <span class="note">30-year assessment (2006&ndash;2035) for burying overhead lines</span>
+          </td>
+          <td class="mono">property</td>
+          <td class="mono">varies</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Proposed 2026 -->
+  <div class="card" style="border: 2px solid var(--red);">
+    <div class="card-title" style="color:var(--red);">Proposed for November 2026 Ballot</div>
+    <p class="intro">These measures are not yet law. They require voter approval in November 2026. The <a href="index.html">calculator</a> lets you model their impact.</p>
+
+    <table class="tax-table">
+      <thead>
+        <tr><th>Measure</th><th>Basis</th><th>Rate</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <span class="measure-name">Arts Tax</span> <span class="badge badge-proposed">PROPOSED</span>
+            <span class="note">Performing arts grants, civic arts, festivals. Backed by Berkeley Rep, Berkeley Symphony, Freight &amp; Salvage. Needs 2,625 signatures.</span>
+          </td>
+          <td class="mono sqft-color">per sq ft</td>
+          <td class="mono">$0.07/sf</td>
+          <td>Signature gathering</td>
+        </tr>
+        <tr>
+          <td>
+            <span class="measure-name">Infrastructure Bond</span> <span class="badge badge-proposed">PROPOSED</span>
+            <span class="note">Up to $300M for fire stations, parks, Civic Center, ADA. Council discussing scope.</span>
+          </td>
+          <td class="mono av-color">assessed value</td>
+          <td class="mono">~$44/$100k AV</td>
+          <td>Council discussion</td>
+        </tr>
+        <tr>
+          <td>
+            <span class="measure-name">Public Bank Tax</span> <span class="badge badge-proposed">PROPOSED</span>
+            <span class="note">Parcel tax to capitalize a city-owned public bank</span>
+          </td>
+          <td class="mono sqft-color">per sq ft</td>
+          <td class="mono">$0.06/sf</td>
+          <td>Under discussion</td>
+        </tr>
+        <tr>
+          <td>
+            <span class="measure-name">Bay Area Transit Sales Tax (Regional)</span> <span class="badge badge-proposed">PROPOSED</span>
+            <span class="note">Half-cent sales tax across Alameda, Contra Costa, San Mateo, Santa Clara counties. Funds BART, AC Transit, and other transit agencies. 14-year sunset (to 2041). ~$1B/year regionwide. Authorized by SB 63.</span>
+          </td>
+          <td class="mono">sales tax</td>
+          <td class="mono">+0.50%</td>
+          <td>Heading to ballot</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Summary -->
+  <div class="card">
+    <div class="card-title blue">Putting It All Together</div>
+
+    <div class="example-box" style="background: linear-gradient(135deg, #f0f7fc, #e8f4f8); border-left-color: var(--accent);">
+      <div class="example-title" style="color:var(--accent);">Typical Berkeley Home: 1,400 sq ft / $800,000 AV</div>
+      <div class="example-line">Ad valorem (1.2323% &times; $800k) <span style="float:right"><strong>$9,858</strong></span></div>
+      <div class="example-line">City parcel taxes (~$1.07 &times; 1,400) <span style="float:right"><strong>$1,498</strong></span></div>
+      <div class="example-line">School parcel taxes (~$0.79 &times; 1,400) <span style="float:right"><strong>$1,106</strong></span></div>
+      <div class="example-line">Refuse, stormwater, other <span style="float:right"><strong>~$800</strong></span></div>
+      <div class="example-line example-total">Approximate total bill <span style="float:right"><strong>~$13,262</strong></span></div>
+      <div class="example-line" style="margin-top:0.5rem; font-size:0.72rem; color:var(--muted);">
+        If all proposed 2026 measures pass, add approximately <strong style="color:var(--red)">$584</strong> to this bill.
+      </div>
+    </div>
+  </div>
+
+  <!-- Sources -->
+  <div class="card">
+    <div class="card-title muted">Sources</div>
+    <ul class="source-list">
+      <li><a href="https://berkeleyca.gov/city-services/report-pay/property-taxes" target="_blank" rel="noopener">City of Berkeley &mdash; Property Taxes (official rates)</a></li>
+      <li><a href="https://propertytax.alamedacountyca.gov/search" target="_blank" rel="noopener">Alameda County Property Tax Portal (look up your bill)</a></li>
+      <li><a href="https://www.berkeleyside.org/2025/12/04/berkeley-bond-measure-2026-infrastructure" target="_blank" rel="noopener">Berkeleyside &mdash; Infrastructure Bond (Dec 2025)</a></li>
+      <li><a href="https://www.berkeleyside.org/2025/11/17/berkeley-2026-ballot-measure-performing-arts-parcel-tax" target="_blank" rel="noopener">Berkeleyside &mdash; Arts Parcel Tax (Nov 2025)</a></li>
+      <li><a href="https://sfstandard.com/2025/10/13/bay-area-transit-tax-ballot-measure-2026/" target="_blank" rel="noopener">SF Standard &mdash; Bay Area Transit Sales Tax (Oct 2025)</a></li>
+      <li><a href="https://berkeleyca.gov/sites/default/files/documents/2025-12-02%20Special%20Item%2002%20Discussion%20Regarding%20Potential%20Ballot.pdf" target="_blank" rel="noopener">Berkeley City Council &mdash; 2026 Ballot Measure Discussion (Dec 2025)</a></li>
+    </ul>
+  </div>
+
+</div>
+
+<footer>
+  <div class="container">
+    Rates are FY 2025&ndash;26 unless noted. This is an informational tool, not tax advice. Your actual bill may differ based on exemptions, lot size adjustments, and assessment specifics. Last updated March 2026.
+  </div>
+</footer>
+
+</body>
+</html>
