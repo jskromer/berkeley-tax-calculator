@@ -15,8 +15,8 @@ Select your home's **assessed value** and **square footage** from the dropdowns.
 | Public Bank Tax | per sq ft | $0.06/sf |
 | Arts Tax | per sq ft | $0.07/sf |
 | Infrastructure Bond | assessed value | $44/$100k AV |
-| Berkeley Sales Tax Increase | flat estimate | +0.05% |
-| County Sales Tax (BART) | flat estimate | +0.05% |
+| Berkeley Sales Tax Increase | flat estimate | +0.5% |
+| County Sales Tax (BART) | flat estimate | +0.5% |
 | Parcel Tax Rate Increase | per sq ft | $0.0534/sf |
 
 All cells include the Prop 13 baseline increase (AV × 2% × 1.2323%) regardless of which measures are checked.
