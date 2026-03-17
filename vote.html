@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Berkeley 2026 Tax Measures — Straw Poll</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Source+Sans+3:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f5f4f0;
+      --surface: #ffffff;
+      --surface2: #eeecea;
+      --border: #d4d0c8;
+      --text: #1a1a18;
+      --muted: #6b6860;
+      --accent: #1a6ea8;
+      --amber: #b85c00;
+      --red: #b83232;
+      --green: #2a7a3a;
+      --r: 10px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Source Sans 3', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    .container { max-width: 900px; margin: 0 auto; }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--accent);
+      text-decoration: none;
+      margin-bottom: 1rem;
+    }
+    .back-link:hover { text-decoration: underline; }
+
+    h1 {
+      font-size: clamp(1.4rem, 3vw, 2.1rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 0.5rem;
+    }
+    .subtitle {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--amber);
+      margin-bottom: 0.75rem;
+      line-height: 1.4;
+    }
+
+    .info-box {
+      background: #fdf8f2;
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--amber);
+      border-radius: var(--r);
+      padding: 1rem 1.4rem;
+      font-size: 0.855rem;
+      line-height: 1.75;
+      color: #3a3830;
+      margin-bottom: 1.25rem;
+    }
+    .info-box strong { color: var(--accent); font-weight: 600; }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 1.25rem 1.75rem;
+      margin-bottom: 1.25rem;
+    }
+    .card-title {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .card-title.blue { color: var(--accent); }
+    .card-title.green { color: var(--green); }
+
+    /* Ballot */
+    .ballot-measure {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 0.85rem 1rem;
+      background: #f9f8f6;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 0.6rem;
+      transition: border-color 0.15s;
+    }
+    .ballot-measure:hover { border-color: var(--accent); }
+
+    .ballot-info { flex: 1; min-width: 0; }
+    .ballot-name { font-size: 0.88rem; font-weight: 600; }
+    .ballot-name.av-basis { color: var(--accent); }
+    .ballot-name.sqft-basis { color: var(--amber); }
+    .ballot-rate {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--muted);
+    }
+    .ballot-desc {
+      font-size: 0.78rem;
+      color: #4a4840;
+      margin-top: 0.2rem;
+      line-height: 1.4;
+    }
+
+    .ballot-choices {
+      display: flex;
+      gap: 0.5rem;
+      flex-shrink: 0;
+      margin-top: 0.15rem;
+    }
+    .ballot-choices label {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      transition: all 0.15s;
+      user-select: none;
+    }
+    .ballot-choices label:hover { border-color: var(--accent); }
+    .ballot-choices input[type="radio"] { display: none; }
+    .ballot-choices input[type="radio"]:checked + span { /* handled by JS */ }
+    .ballot-choices label.selected-yes {
+      background: rgba(42, 122, 58, 0.12);
+      border-color: var(--green);
+      color: var(--green);
+    }
+    .ballot-choices label.selected-no {
+      background: rgba(184, 50, 50, 0.1);
+      border-color: var(--red);
+      color: var(--red);
+    }
+
+    .submit-wrap {
+      text-align: center;
+      margin-top: 1.25rem;
+    }
+    .submit-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 0.75rem 2rem;
+      cursor: pointer;
+      letter-spacing: 0.03em;
+      transition: background 0.15s, transform 0.1s;
+    }
+    .submit-btn:hover { background: #155a8a; }
+    .submit-btn:active { transform: scale(0.98); }
+    .submit-btn:disabled {
+      background: var(--muted);
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
+    .submit-error {
+      color: var(--red);
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-align: center;
+      margin-top: 0.5rem;
+    }
+
+    /* Results */
+    .results-section { display: none; }
+    .results-section.visible { display: block; }
+
+    .result-measure {
+      margin-bottom: 1rem;
+    }
+    .result-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.3rem;
+    }
+    .result-name {
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+    .result-count {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--muted);
+    }
+    .result-bar {
+      display: flex;
+      height: 28px;
+      border-radius: 6px;
+      overflow: hidden;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+    }
+    .result-bar-yes {
+      background: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      min-width: 0;
+      transition: flex-basis 0.5s ease;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .result-bar-no {
+      background: #d4d0c8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 600;
+      min-width: 0;
+      transition: flex-basis 0.5s ease;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .total-voters {
+      text-align: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 1rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border);
+    }
+    .total-voters strong { color: var(--accent); }
+
+    .voted-badge {
+      display: inline-block;
+      background: rgba(42, 122, 58, 0.12);
+      color: var(--green);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.25rem 0.75rem;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+    }
+
+    .nav-links {
+      max-width: 900px;
+      margin: 1.25rem auto 0;
+      display: flex;
+      gap: 1.5rem;
+      font-size: 0.85rem;
+    }
+    .nav-links a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .nav-links a:hover { text-decoration: underline; }
+
+    .fine-print {
+      max-width: 900px;
+      margin: 1rem auto 0;
+      font-size: 0.7rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <a href="index.html" class="back-link">&larr; Back to Calculator</a>
+
+  <h1>Berkeley 2026 Tax Measures &mdash; Straw Poll</h1>
+  <p class="subtitle">Which proposed measures would you vote for?</p>
+
+  <div class="info-box">
+    This is an <strong>anonymous, non-binding straw poll</strong> to gauge neighborhood sentiment on Berkeley's proposed 2026 tax measures. No login required. No personal information collected. One vote per browser. See the <a href="index.html" style="color:var(--accent);">calculator</a> to estimate your personal tax impact, or the <a href="explained.html" style="color:var(--accent);">full breakdown</a> to understand each levy.
+  </div>
+
+  <!-- Ballot -->
+  <div class="card" id="ballot-card">
+    <div class="card-title blue">Your Ballot &mdash; Vote Yes or No on Each Measure</div>
+
+    <div class="ballot-measure" data-measure="publicBank">
+      <div class="ballot-info">
+        <div class="ballot-name sqft-basis">Public Bank Tax</div>
+        <div class="ballot-rate">$0.06 / sq ft</div>
+        <div class="ballot-desc">Parcel tax to capitalize a city-owned public bank</div>
+      </div>
+      <div class="ballot-choices">
+        <label onclick="selectVote('publicBank','yes',this)"><input type="radio" name="publicBank" value="yes" /><span>Yes</span></label>
+        <label onclick="selectVote('publicBank','no',this)"><input type="radio" name="publicBank" value="no" /><span>No</span></label>
+      </div>
+    </div>
+
+    <div class="ballot-measure" data-measure="artsTax">
+      <div class="ballot-info">
+        <div class="ballot-name sqft-basis">Arts Tax</div>
+        <div class="ballot-rate">$0.07 / sq ft</div>
+        <div class="ballot-desc">Performing arts grants, civic arts, and festivals</div>
+      </div>
+      <div class="ballot-choices">
+        <label onclick="selectVote('artsTax','yes',this)"><input type="radio" name="artsTax" value="yes" /><span>Yes</span></label>
+        <label onclick="selectVote('artsTax','no',this)"><input type="radio" name="artsTax" value="no" /><span>No</span></label>
+      </div>
+    </div>
+
+    <div class="ballot-measure" data-measure="infraBond">
+      <div class="ballot-info">
+        <div class="ballot-name av-basis">Infrastructure Bond</div>
+        <div class="ballot-rate">$44 / $100k assessed value</div>
+        <div class="ballot-desc">Up to $300M for fire stations, parks, Civic Center, ADA improvements</div>
+      </div>
+      <div class="ballot-choices">
+        <label onclick="selectVote('infraBond','yes',this)"><input type="radio" name="infraBond" value="yes" /><span>Yes</span></label>
+        <label onclick="selectVote('infraBond','no',this)"><input type="radio" name="infraBond" value="no" /><span>No</span></label>
+      </div>
+    </div>
+
+    <div class="ballot-measure" data-measure="berkSales">
+      <div class="ballot-info">
+        <div class="ballot-name">Berkeley Sales Tax Increase</div>
+        <div class="ballot-rate">+0.5% sales tax</div>
+        <div class="ballot-desc">City sales tax increase for general fund</div>
+      </div>
+      <div class="ballot-choices">
+        <label onclick="selectVote('berkSales','yes',this)"><input type="radio" name="berkSales" value="yes" /><span>Yes</span></label>
+        <label onclick="selectVote('berkSales','no',this)"><input type="radio" name="berkSales" value="no" /><span>No</span></label>
+      </div>
+    </div>
+
+    <div class="ballot-measure" data-measure="alamSales">
+      <div class="ballot-info">
+        <div class="ballot-name">County Sales Tax for BART</div>
+        <div class="ballot-rate">+0.5% sales tax (regional)</div>
+        <div class="ballot-desc">Half-cent regional sales tax funding BART, AC Transit, and other transit agencies</div>
+      </div>
+      <div class="ballot-choices">
+        <label onclick="selectVote('alamSales','yes',this)"><input type="radio" name="alamSales" value="yes" /><span>Yes</span></label>
+        <label onclick="selectVote('alamSales','no',this)"><input type="radio" name="alamSales" value="no" /><span>No</span></label>
+      </div>
+    </div>
+
+    <div class="ballot-measure" data-measure="parcel">
+      <div class="ballot-info">
+        <div class="ballot-name sqft-basis">Parcel Tax Rate Increase</div>
+        <div class="ballot-rate">$0.0534 / sq ft (6.44% escalator on existing measures)</div>
+        <div class="ballot-desc">Annual rate increase on five existing city parcel taxes</div>
+      </div>
+      <div class="ballot-choices">
+        <label onclick="selectVote('parcel','yes',this)"><input type="radio" name="parcel" value="yes" /><span>Yes</span></label>
+        <label onclick="selectVote('parcel','no',this)"><input type="radio" name="parcel" value="no" /><span>No</span></label>
+      </div>
+    </div>
+
+    <div class="submit-wrap">
+      <button class="submit-btn" id="submit-btn" onclick="submitVotes()" disabled>Submit Your Votes</button>
+      <div class="submit-error" id="submit-error"></div>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="results-section" id="results-section">
+    <div class="card">
+      <div class="card-title green">Community Results</div>
+      <div id="voted-badge-wrap"></div>
+      <div id="results-container"></div>
+      <div class="total-voters" id="total-voters"></div>
+    </div>
+  </div>
+</div>
+
+<div class="nav-links">
+  <a href="index.html">&larr; Tax Impact Calculator</a>
+  <a href="explained.html">Full Tax Bill Breakdown &rarr;</a>
+</div>
+
+<div class="fine-print">
+  This is an informal, anonymous straw poll &mdash; not an official election. One vote per browser (uses localStorage). No personal data is collected or stored. Results are not statistically representative. For official election information, visit <a href="https://www.acvote.org" style="color:var(--accent);" target="_blank" rel="noopener">acvote.org</a>.
+</div>
+
+<script>
+  const MEASURES = ['publicBank', 'artsTax', 'infraBond', 'berkSales', 'alamSales', 'parcel'];
+  const MEASURE_NAMES = {
+    publicBank: 'Public Bank Tax',
+    artsTax: 'Arts Tax',
+    infraBond: 'Infrastructure Bond',
+    berkSales: 'Berkeley Sales Tax',
+    alamSales: 'County Sales Tax (BART)',
+    parcel: 'Parcel Tax Rate Increase',
+  };
+
+  const votes = {};
+  let votedCount = 0;
+
+  function selectVote(measure, value, labelEl) {
+    votes[measure] = value;
+
+    // Update radio visual state
+    const row = labelEl.closest('.ballot-measure');
+    row.querySelectorAll('.ballot-choices label').forEach(l => {
+      l.classList.remove('selected-yes', 'selected-no');
+    });
+    labelEl.classList.add(value === 'yes' ? 'selected-yes' : 'selected-no');
+    labelEl.querySelector('input').checked = true;
+
+    // Enable submit when all measures have votes
+    votedCount = MEASURES.filter(m => votes[m]).length;
+    document.getElementById('submit-btn').disabled = votedCount < MEASURES.length;
+  }
+
+  async function getFingerprint() {
+    let fp = localStorage.getItem('berkeleyVoteFingerprint');
+    if (!fp) {
+      fp = crypto.randomUUID();
+      localStorage.setItem('berkeleyVoteFingerprint', fp);
+    }
+    const hash = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(fp));
+    return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+
+  async function submitVotes() {
+    const btn = document.getElementById('submit-btn');
+    const errEl = document.getElementById('submit-error');
+    btn.disabled = true;
+    btn.textContent = 'Submitting\u2026';
+    errEl.textContent = '';
+
+    try {
+      const fingerprint = await getFingerprint();
+      const resp = await fetch('/api/vote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ votes, fingerprint }),
+      });
+
+      const data = await resp.json();
+
+      if (resp.status === 409) {
+        // Already voted — show results anyway
+        localStorage.setItem('berkeleyVote2026', 'true');
+        showResults(data, true);
+        return;
+      }
+
+      if (!resp.ok) {
+        throw new Error(data.error || 'Something went wrong');
+      }
+
+      localStorage.setItem('berkeleyVote2026', 'true');
+      showResults(data, false);
+    } catch (err) {
+      btn.disabled = false;
+      btn.textContent = 'Submit Your Votes';
+      errEl.textContent = err.message || 'Failed to submit. Please try again.';
+    }
+  }
+
+  function showResults(data, alreadyVoted) {
+    document.getElementById('ballot-card').style.display = 'none';
+    const section = document.getElementById('results-section');
+    section.classList.add('visible');
+
+    if (alreadyVoted) {
+      document.getElementById('voted-badge-wrap').innerHTML =
+        '<div class="voted-badge">You\u2019ve already voted — here are the current results</div>';
+    }
+
+    const container = document.getElementById('results-container');
+    let html = '';
+
+    for (const m of MEASURES) {
+      const yes = data.results[m]?.yes || 0;
+      const no = data.results[m]?.no || 0;
+      const total = yes + no;
+      const yesPct = total > 0 ? (yes / total * 100) : 0;
+      const noPct = total > 0 ? (no / total * 100) : 0;
+
+      html += `
+        <div class="result-measure">
+          <div class="result-header">
+            <span class="result-name">${MEASURE_NAMES[m]}</span>
+            <span class="result-count">${total} vote${total !== 1 ? 's' : ''}</span>
+          </div>
+          <div class="result-bar">
+            <div class="result-bar-yes" style="flex-basis:${yesPct}%">${yesPct >= 12 ? yesPct.toFixed(0) + '% Yes' : ''}</div>
+            <div class="result-bar-no" style="flex-basis:${noPct}%">${noPct >= 12 ? noPct.toFixed(0) + '% No' : ''}</div>
+          </div>
+        </div>
+      `;
+    }
+
+    container.innerHTML = html;
+    document.getElementById('total-voters').innerHTML =
+      '<strong>' + (data.totalVoters || 0) + '</strong> total voter' + ((data.totalVoters || 0) !== 1 ? 's' : '');
+  }
+
+  // On load: check if already voted, show results
+  (async function init() {
+    if (localStorage.getItem('berkeleyVote2026')) {
+      try {
+        const resp = await fetch('/api/results');
+        if (resp.ok) {
+          const data = await resp.json();
+          showResults(data, true);
+        }
+      } catch (e) {
+        // API not available — show ballot as fallback
+      }
+    }
+  })();
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>
